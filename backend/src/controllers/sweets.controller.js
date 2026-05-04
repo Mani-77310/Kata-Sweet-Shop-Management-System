@@ -38,6 +38,8 @@ exports.searchSweets = async (req, res, next) => {
 };
 exports.updateSweet = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
     const sweet = await Sweet.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!sweet) return res.status(404).json({ error: 'Not found' });
     res.json(sweet);

@@ -15,7 +15,15 @@ router.post('/',
 router.get('/', sweetsController.listSweets);
 router.get('/search', sweetsController.searchSweets);
 router.get('/:id', sweetsController.getSweet);
-router.put('/:id', protect, adminOnly, sweetsController.updateSweet);
+router.put('/:id',
+  protect,
+  adminOnly,
+  body('name').optional().notEmpty(),
+  body('category').optional().notEmpty(),
+  body('price').optional().isFloat({ gt: 0 }),
+  body('quantity').optional().isInt({ min: 0 }),
+  sweetsController.updateSweet
+);
 router.delete('/:id', protect, adminOnly, sweetsController.deleteSweet);
 router.post('/:id/purchase', protect, sweetsController.purchaseSweet);
 router.post('/:id/restock', protect, adminOnly, sweetsController.restockSweet);

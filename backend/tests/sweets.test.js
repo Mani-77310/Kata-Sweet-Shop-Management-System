@@ -1,9 +1,9 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
 require('dotenv').config();
-const app = require('../backend/src/app');
-const User = require('../backend/src/models/User');
-const Sweet = require('../backend/src/models/Sweet');
+const app = require('../src/app');
+const User = require('../src/models/User');
+const Sweet = require('../src/models/Sweet');
 const jwt = require('jsonwebtoken');
 
 let tokenUser, tokenAdmin;
