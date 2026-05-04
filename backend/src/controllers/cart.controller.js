@@ -15,6 +15,8 @@ exports.addItem = async (req, res, next) => {
     const { sweetId, qty = 1 } = req.body;
     if (!sweetId) return res.status(400).json({ error: 'sweetId required' });
     const q = Math.max(1, Math.floor(Number(qty) || 1));
+    const sweetExists = await Sweet.exists({ _id: sweetId });
+    if (!sweetExists) return res.status(404).json({ error: 'Sweet not found' });
 
     let cart = await Cart.findOne({ user: req.user.id });
     if (!cart) {

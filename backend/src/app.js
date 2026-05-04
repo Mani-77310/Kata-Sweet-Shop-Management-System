@@ -4,7 +4,11 @@ const authRoutes = require('./routes/auth.routes');
 const sweetsRoutes = require('./routes/sweets.routes');
 const cartRoutes = require('./routes/cart.routes');
 const app = express();
-app.use(cors({ origin: "*" }));
+const allowedOrigins = (process.env.CORS_ORIGIN || '*')
+  .split(',')
+  .map(v => v.trim())
+  .filter(Boolean);
+app.use(cors({ origin: allowedOrigins.includes('*') ? '*' : allowedOrigins }));
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/sweets', sweetsRoutes);
